@@ -43,6 +43,21 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+/*   bool _handleScrollNotification(ScrollNotification notification) {
+    if (notification is ScrollEndNotification) {
+      if (_scrollController.position.extentAfter == 0) {
+        if (!viewModel.isloading) {
+          loadMore();
+        }
+      }
+    }
+    return false;
+  }
+
+  loadMore() async {
+    await viewModel.loadMoreData();
+  } */
+
   @override
   void initState() {
     setupProviderData();
@@ -52,7 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     viewModel.dispose();
     _scrollController.dispose();
     super.dispose();
@@ -84,7 +98,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   behavior: NoGlowScrollBehaviour(),
                   child: RefreshIndicator(
                     onRefresh: () async {},
-                    child: CustomScrollView(
+                    child: /* NotificationListener<ScrollNotification>(
+                      onNotification: _handleScrollNotification,
+                      child: */
+                        CustomScrollView(
                       controller: _scrollController,
                       slivers: [
                         SliverPersistentHeader(
@@ -124,6 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ]))
                       ],
                     ),
+                    // ),
                   )),
             )));
   }

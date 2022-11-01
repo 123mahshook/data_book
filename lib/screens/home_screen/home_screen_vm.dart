@@ -30,9 +30,10 @@ class HomeScreenVM extends BaseViewModel {
   }
 
   loadMoreData() async {
-    print(pageCount);
-    Future.delayed(Duration(seconds: 50));
     isloading = true;
+    print(pageCount);
+    await Future.delayed(Duration(seconds: 5));
+
     _loaderSink.add(isloading);
     if (Provider.of<DataProvider>(parentContext!, listen: false)
             .userData
