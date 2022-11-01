@@ -31,25 +31,49 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _scrollcontroll() {
+    //int i = 0;
     _scrollController.addListener(() async {
       //lazyloading
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        await viewModel.loadMoreData();
+        if (!viewModel.isloading) {
+          await viewModel.loadMoreData();
+        }
       }
     });
   }
 
   @override
   void initState() {
+    setupProviderData();
     _scrollcontroll();
     super.initState();
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    viewModel.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+/* //if using ChangeNotifierProvider.value constructor
+//init value after hot reload
+  providerInitSetup() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<DataProvider>(context, listen: false)
+          .setUserData(viewModel.userData);
+      Provider.of<DataProvider>(context, listen: false)
+          .updateUserDataList(viewModel.listUser);
+    });
+  } */
+
+  @override
   Widget build(BuildContext context) {
+    //providerInitSetup();
     viewModel.setContext(context);
-    setupProviderData();
+    //setupProviderData();
     return SafeArea(
         child: Scaffold(
             backgroundColor: AppColors.white,
@@ -135,8 +159,71 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget recentMembers() {
-    return Consumer<DataProvider>(
-      builder: (context, users, _) => ListView.builder(
+    /* return Consumer<DataProvider>(builder: (context, users, _) {
+      return ListView.builder(
+        scrollDirection: Axis.vertical,
+        physics: const NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.only(
+          bottom: SizeUtils.getHeight(110),
+          top: SizeUtils.getHeight(24),
+          left: SizeUtils.getWidth(24),
+          right: SizeUtils.getWidth(24),
+        ),
+        shrinkWrap: true,
+        itemCount: users.userDataList.isEmpty
+            ? viewModel.listUser.length
+            : users.userDataList.length,
+        itemBuilder: (context, index) {
+          return memberTile(
+              index,
+              users.userDataList.isEmpty
+                  ? viewModel.listUser[index]
+                  : users.userDataList[index]);
+        },
+      );
+    }); */
+    /* return ListView.builder(
+      scrollDirection: Axis.vertical,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.only(
+        bottom: SizeUtils.getHeight(110),
+        top: SizeUtils.getHeight(24),
+        left: SizeUtils.getWidth(24),
+        right: SizeUtils.getWidth(24),
+      ),
+      shrinkWrap: true,
+      itemCount: Provider.of<DataProvider>(context).userDataList.length,
+      itemBuilder: (context, index) {
+        return memberTile(
+            index, Provider.of<DataProvider>(context).userDataList[index]);
+      },
+    ); */
+
+    /*   return ChangeNotifierProvider(
+        create: (_) => DataProvider(),
+        builder: (context, child) {
+          List<UserModel> userDt =
+              Provider.of<DataProvider>(context, listen: false).userDataList;
+          print(userDt.length);
+          print(userDt);
+          return ListView.builder(
+            scrollDirection: Axis.vertical,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.only(
+              bottom: SizeUtils.getHeight(110),
+              top: SizeUtils.getHeight(24),
+              left: SizeUtils.getWidth(24),
+              right: SizeUtils.getWidth(24),
+            ),
+            shrinkWrap: true,
+            itemCount: userDt.length,
+            itemBuilder: (context, index) {
+              return memberTile(index, userDt[index]);
+            },
+          );
+        }); */
+    return Consumer<DataProvider>(builder: (context, users, _) {
+      return ListView.builder(
         scrollDirection: Axis.vertical,
         physics: const NeverScrollableScrollPhysics(),
         padding: EdgeInsets.only(
@@ -150,8 +237,8 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, index) {
           return memberTile(index, users.userDataList[index]);
         },
-      ),
-    );
+      );
+    });
   }
 
   Widget memberTile(

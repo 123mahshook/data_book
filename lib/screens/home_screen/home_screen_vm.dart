@@ -16,6 +16,7 @@ class HomeScreenVM extends BaseViewModel {
 
   int pageCount = 0;
   int itemCount = 10;
+  bool isloading = false;
 
   final _loaderController = StreamController<bool>.broadcast();
   StreamSink<bool> get _loaderSink => _loaderController.sink;
@@ -28,8 +29,11 @@ class HomeScreenVM extends BaseViewModel {
         userData.skip(pageCount * itemCount).take(itemCount).toList());
   }
 
-  loadMoreData() {
-    _loaderSink.add(true);
+  loadMoreData() async {
+    print(pageCount);
+    Future.delayed(Duration(seconds: 50));
+    isloading = true;
+    _loaderSink.add(isloading);
     if (Provider.of<DataProvider>(parentContext!, listen: false)
             .userData
             .length >
@@ -40,6 +44,8 @@ class HomeScreenVM extends BaseViewModel {
       List<UserModel> tempSet =
           userData.skip(pageCount * itemCount).take(itemCount).toList();
       listUser.addAll(tempSet);
+      /* await Future.delayed(Duration(seconds: 50)); */
+
       Provider.of<DataProvider>(parentContext!, listen: false)
           .updateUserDataList(listUser);
     } else {
@@ -49,6 +55,7 @@ class HomeScreenVM extends BaseViewModel {
               parentContext: parentContext!)
           .show();
     }
-    _loaderSink.add(false);
+    isloading = false;
+    _loaderSink.add(isloading);
   }
 }

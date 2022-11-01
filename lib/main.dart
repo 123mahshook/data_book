@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: DataProvider()),
+        // ChangeNotifierProvider(create: (context) => DataProvider()),
       ],
       child: MaterialApp(
         title: 'Data Book',

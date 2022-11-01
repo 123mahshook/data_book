@@ -7,11 +7,13 @@ class DataProvider extends ChangeNotifier {
 
   setUserData(List<UserModel> dt) {
     userData = dt;
-    notifyListeners();
+    //notifyListeners();
   }
 
   updateUserDataList(List<UserModel> dt) {
     userDataList = dt;
+    print("--------");
+    print(dt.length);
     notifyListeners();
   }
 }

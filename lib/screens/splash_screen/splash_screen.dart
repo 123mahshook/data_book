@@ -19,7 +19,6 @@ class _SplashScreenState extends State<SplashScreen> {
   SplashScreenVM viewModel = SplashScreenVM();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     // navigateHome();
   }
@@ -34,18 +33,18 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Scaffold(
             backgroundColor: AppColors.white,
             body: Container(
-              height: SizeUtils.getScreenHeight(),
-              width: SizeUtils.getScreenWidth(),
+              height: screenHeight,
+              width: screenWidth,
               padding: EdgeInsets.symmetric(
-                horizontal: SizeUtils.getWidth(24),
-                vertical: SizeUtils.getHeight(24),
+                horizontal: SizeUtils.getWidthonSplash(24, screenWidth),
+                vertical: SizeUtils.getHeightonSplash(24, screenHeight),
               ),
               child: Column(
                 children: [
                   const Spacer(),
                   Image.asset(
                     Utils.getAssetPng("logo_splash"),
-                    height: SizeUtils.getHeight(280),
+                    height: SizeUtils.getHeightonSplash(280, screenHeight),
                   ),
                   const Spacer(),
                   Text(

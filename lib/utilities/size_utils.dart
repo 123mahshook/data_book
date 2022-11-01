@@ -55,4 +55,15 @@ class SizeUtils {
   static double setRadius(double radiusData) {
     return radiusData / height;
   }
+
+  //splash handling
+
+  static double getWidthonSplash(double widthDt, double screenWidth) {
+    return setWidth(widthDt) * screenWidth /* ScreenUtil().setWidth(width) */;
+  }
+
+  static double getHeightonSplash(double heightDt, double screenHeight) {
+    return setHeight(heightDt) *
+        screenHeight /* ScreenUtil().setHeight(height) */;
+  }
 }
