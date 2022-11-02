@@ -116,29 +116,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                     child: appBar()))),
                         SliverList(
-                            delegate: SliverChildListDelegate([
-                          recentMembers(),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                bottom: SizeUtils.getHeight(30)),
-                            child: Container(
-                              color: AppColors.white.withOpacity(0.7),
-                              child: StreamBuilder<bool>(
-                                  stream: viewModel.getLoaderStream,
-                                  initialData: true,
-                                  builder: (context, snapshot) {
-                                    return snapshot.data!
-                                        ? Center(
-                                            child: SizedBox(
-                                                height: SizeUtils.getHeight(30),
-                                                width: SizeUtils.getHeight(30),
-                                                child: CustomCircularLoader()),
-                                          )
-                                        : const SizedBox();
-                                  }),
-                            ),
-                          ),
-                        ]))
+                            delegate: SliverChildListDelegate(
+                                [totalRow(), recentMembers(), bottomLoader()]))
                       ],
                     ),
                     // ),
@@ -174,6 +153,61 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
+  }
+
+  Widget bottomLoader() {
+    return Padding(
+      padding: EdgeInsets.only(bottom: SizeUtils.getHeight(30)),
+      child: Container(
+        color: AppColors.white.withOpacity(0.7),
+        child: StreamBuilder<bool>(
+            stream: viewModel.getLoaderStream,
+            initialData: true,
+            builder: (context, snapshot) {
+              return snapshot.data!
+                  ? Center(
+                      child: SizedBox(
+                          height: SizeUtils.getHeight(30),
+                          width: SizeUtils.getHeight(30),
+                          child: CustomCircularLoader()),
+                    )
+                  : const SizedBox();
+            }),
+      ),
+    );
+  }
+
+  Widget totalRow() {
+    return Container(
+        padding: EdgeInsets.only(
+          top: SizeUtils.getHeight(24),
+          left: SizeUtils.getWidth(24),
+          right: SizeUtils.getWidth(24),
+        ),
+        child: /* FutureProvider<int>(
+        initialData: 0,
+        create: (context) =>
+            Provider.of<DataProvider>(context).getMembertotal(),
+        child: Consumer<DataProvider>(builder: (context, value, _) {
+          print("\n");
+          print(value.total);
+          print("\n");
+          return */
+            Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "${viewModel.userData.length} Members Found",
+              style: FontUtils.getFont12Style(
+                color: AppColors.prim5,
+                fontWeight: FontWeight.w500,
+              ),
+            )
+          ],
+        ) /*;
+         }),
+      ), */
+        );
   }
 
   Widget recentMembers() {
