@@ -8,6 +8,7 @@ import 'package:data_book/utilities/no_glow_scroll_behaviour.dart';
 import 'package:data_book/utilities/size_utils.dart';
 import 'package:data_book/utilities/utils.dart';
 import 'package:data_book/widgets/custom_circular_loader.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -379,4 +380,13 @@ class _HomeScreenState extends State<HomeScreen> {
           ]),
         ));
   }
+
+  /* Widget testValueListenable() {
+    ValueListenable<int> selectedIndex = ValueNotifier(0);
+    return ValueListenableBuilder<int>(
+        valueListenable: selectedIndex,
+        builder: ((context, value, child) {
+          return Text(selectedIndex.value.toString());
+        }));
+  } */
 }
