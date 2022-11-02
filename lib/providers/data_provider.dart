@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class DataProvider extends ChangeNotifier {
   List<UserModel> userData = [];
   List<UserModel> userDataList = [];
+  int total = 0;
 
   setUserData(List<UserModel> dt) {
     userData = dt;
@@ -16,4 +17,11 @@ class DataProvider extends ChangeNotifier {
     print(dt.length);
     notifyListeners();
   }
+
+  /*  Future<int> getMembertotal() async {
+    Future.delayed(Duration(seconds: 10));
+    total = userData.length;
+    notifyListeners();
+    return total;
+  } */
 }
