@@ -12,9 +12,13 @@ class GetHomeDataService {
 
       //Map<String, dynamic> data = jsonDecode(response.body);
       List<UserModel> data = UserModel.parseItems(jsonDecode(response.body));
+      _setData();
       return data;
     } catch (_) {
       return res;
     }
+  }
+  _setData(){
+    
   }
 }
