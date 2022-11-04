@@ -2,6 +2,7 @@ import 'package:data_book/data_access_layer/models/user_model.dart';
 import 'package:data_book/providers/data_provider.dart';
 import 'package:data_book/screens/home_screen/home_screen_vm.dart';
 import 'package:data_book/utilities/app_colors.dart';
+import 'package:data_book/utilities/app_routes.dart';
 import 'package:data_book/utilities/custom_sliver_delegate.dart';
 import 'package:data_book/utilities/font_utils.dart';
 import 'package:data_book/utilities/no_glow_scroll_behaviour.dart';
@@ -194,17 +195,22 @@ class _HomeScreenState extends State<HomeScreen> {
           print(value.total);
           print("\n");
           return */
-            Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "${viewModel.userData.length} Members Found",
-              style: FontUtils.getFont12Style(
-                color: AppColors.prim5,
-                fontWeight: FontWeight.w500,
-              ),
-            )
-          ],
+            TextButton(
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoutes.testRoute);
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "${viewModel.userData.length} Members Found",
+                style: FontUtils.getFont12Style(
+                  color: AppColors.prim5,
+                  fontWeight: FontWeight.w500,
+                ),
+              )
+            ],
+          ),
         ) /*;
          }),
       ), */

@@ -1,6 +1,7 @@
 import 'package:data_book/providers/data_provider.dart';
 import 'package:data_book/screens/home_screen/home_screen.dart';
 import 'package:data_book/screens/splash_screen/splash_screen.dart';
+import 'package:data_book/screens/test_screen/test_screen.dart';
 import 'package:data_book/utilities/app_colors.dart';
 import 'package:data_book/utilities/app_routes.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,6 +44,8 @@ class MyApp extends StatelessWidget {
         routes: <String, WidgetBuilder>{
           AppRoutes.splashRoute: (context) => const SplashScreen(),
           AppRoutes.homeScreenRoute: ((context) => const HomeScreen()),
+          AppRoutes.testRoute: (context) => ChangeNotifierProvider<MyCounter>(
+              create: (context) => MyCounter(), child: TestScreen()),
         },
       ),
     );
