@@ -1,7 +1,13 @@
 import 'package:data_book/data_access_layer/models/user_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class DataProvider extends ChangeNotifier {
+class DataProvider extends ChangeNotifier implements ReassembleHandler {
+  @override
+  void reassemble() {
+    print('Did hot-reload');
+  }
+
   List<UserModel> userData = [];
   List<UserModel> userDataList = [];
   int total = 0;
