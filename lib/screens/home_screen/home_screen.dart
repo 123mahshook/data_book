@@ -105,6 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //providerInitSetup();
     viewModel.setContext(context);
     //setupProviderData();
+    print("rebuilded");
     return SafeArea(
         child: Scaffold(
             backgroundColor: AppColors.white,
@@ -318,6 +319,32 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     });
   }
+
+/*   Widget recentMembers() {
+    return StreamProvider<List<UserModel>>.value(
+      initialData: [],
+      value: viewModel.getDataStream,
+      // create: (context) => viewModel.getDataStream,
+      child: Consumer<List<UserModel>>(builder: (context, users, _) {
+        print("list builded");
+        return ListView.builder(
+          scrollDirection: Axis.vertical,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.only(
+            bottom: SizeUtils.getHeight(110),
+            top: SizeUtils.getHeight(24),
+            left: SizeUtils.getWidth(24),
+            right: SizeUtils.getWidth(24),
+          ),
+          shrinkWrap: true,
+          itemCount: users.length,
+          itemBuilder: (context, index) {
+            return memberTile(index, users[index]);
+          },
+        );
+      }),
+    );
+  } */
 
   Widget memberTile(
     index,

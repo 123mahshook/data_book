@@ -3,9 +3,7 @@ import 'dart:async';
 import 'package:data_book/app/contracts/base_view_model.dart';
 import 'package:data_book/data_access_layer/models/user_model.dart';
 import 'package:data_book/providers/data_provider.dart';
-import 'package:data_book/screens/home_screen/home_screen.dart';
 import 'package:data_book/utilities/show_toast.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreenVM extends BaseViewModel {
@@ -24,9 +22,14 @@ class HomeScreenVM extends BaseViewModel {
   StreamSink<bool> get _loaderSink => _loaderController.sink;
   Stream<bool> get getLoaderStream => _loaderController.stream;
 
+/*   final _dataController = StreamController<List<UserModel>>.broadcast();
+  StreamSink<List<UserModel>> get _dataSink => _dataController.sink;
+  Stream<List<UserModel>> get getDataStream => _dataController.stream; */
+
   setData(List<UserModel> data) {
     userData = data;
     listUser = userData.skip(pageCount * itemCount).take(itemCount).toList();
+    /*  _dataSink.add(listUser); */
     Provider.of<DataProvider>(parentContext!, listen: false).updateUserDataList(
         userData.skip(pageCount * itemCount).take(itemCount).toList());
     /*   Provider.of<TotalCount>(parentContext!, listen: false)
@@ -53,6 +56,7 @@ class HomeScreenVM extends BaseViewModel {
 
       Provider.of<DataProvider>(parentContext!, listen: false)
           .updateUserDataList(listUser);
+      /*  _dataSink.add(listUser); */
     } else {
       ShowToast(
               title: "",
@@ -63,4 +67,13 @@ class HomeScreenVM extends BaseViewModel {
     isloading = false;
     _loaderSink.add(isloading);
   }
+
+/*   Stream<String> get DataStreamList async* {
+    while (i < 85) {
+      await Future.delayed(Duration(seconds: 1), () {
+        i++;
+      });
+      yield i.toString();
+    }
+  } */
 }

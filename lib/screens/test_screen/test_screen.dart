@@ -81,6 +81,16 @@ class _TestScreenState extends State<TestScreen> {
                           ),
                         )),
                   ),
+                  verticalSpace(30),
+                  StreamProvider<String>(
+                      initialData: "0",
+                      create: (context) =>
+                          DataStream(name: 'Jhone Doe', initialAge: 25).age,
+                      child: Consumer<String>(
+                        builder: (context, value, _) {
+                          return Text(value);
+                        },
+                      )),
                 ],
               ),
             )));
@@ -101,5 +111,22 @@ class MyCounter with ChangeNotifier {
   void decrementCounter() {
     _counter--;
     notifyListeners();
+  }
+}
+
+class DataStream {
+  DataStream({this.name, this.initialAge});
+
+  final String? name;
+  final int? initialAge;
+
+  Stream<String> get age async* {
+    var i = initialAge!;
+    while (i < 85) {
+      await Future.delayed(Duration(seconds: 1), () {
+        i++;
+      });
+      yield i.toString();
+    }
   }
 }
