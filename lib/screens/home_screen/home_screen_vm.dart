@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:data_book/app/contracts/base_view_model.dart';
 import 'package:data_book/data_access_layer/models/user_model.dart';
 import 'package:data_book/providers/data_provider.dart';
+import 'package:data_book/screens/home_screen/home_screen.dart';
 import 'package:data_book/utilities/show_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +29,8 @@ class HomeScreenVM extends BaseViewModel {
     listUser = userData.skip(pageCount * itemCount).take(itemCount).toList();
     Provider.of<DataProvider>(parentContext!, listen: false).updateUserDataList(
         userData.skip(pageCount * itemCount).take(itemCount).toList());
+    /*   Provider.of<TotalCount>(parentContext!, listen: false)
+        .setCounter(data.length); */
   }
 
   loadMoreData() async {

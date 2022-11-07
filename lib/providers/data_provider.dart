@@ -6,10 +6,14 @@ class DataProvider extends ChangeNotifier implements ReassembleHandler {
   @override
   void reassemble() {
     print('Did hot-reload');
+    if (screenSetup != null) {
+      screenSetup!.call();
+    }
   }
 
   List<UserModel> userData = [];
   List<UserModel> userDataList = [];
+  Function? screenSetup;
   int total = 0;
 
   setUserData(List<UserModel> dt) {
@@ -24,10 +28,7 @@ class DataProvider extends ChangeNotifier implements ReassembleHandler {
     notifyListeners();
   }
 
-  /*  Future<int> getMembertotal() async {
-    Future.delayed(Duration(seconds: 10));
-    total = userData.length;
-    notifyListeners();
-    return total;
-  } */
+  setHotReloadDataReset(Function screenHotreload) {
+    screenSetup = screenHotreload;
+  }
 }

@@ -43,7 +43,10 @@ class MyApp extends StatelessWidget {
         home: const SplashScreen(),
         routes: <String, WidgetBuilder>{
           AppRoutes.splashRoute: (context) => const SplashScreen(),
-          AppRoutes.homeScreenRoute: ((context) => const HomeScreen()),
+          AppRoutes.homeScreenRoute: ((context) =>
+              ChangeNotifierProvider<TotalCount>(
+                  create: (context) => TotalCount(),
+                  child: const HomeScreen())),
           AppRoutes.testRoute: (context) => ChangeNotifierProvider<MyCounter>(
               create: (context) => MyCounter(), child: TestScreen()),
         },

@@ -9,7 +9,6 @@ import 'package:data_book/utilities/no_glow_scroll_behaviour.dart';
 import 'package:data_book/utilities/size_utils.dart';
 import 'package:data_book/utilities/utils.dart';
 import 'package:data_book/widgets/custom_circular_loader.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,11 +22,18 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   HomeScreenVM viewModel = HomeScreenVM();
   ScrollController _scrollController = ScrollController();
+  int noOfRecords = 0;
 
   setupProviderData() {
+    List<UserModel> userDt =
+        Provider.of<DataProvider>(context, listen: false).userData;
+    Provider.of<TotalCount>(context, listen: false).setCounter(userDt.length);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      List<UserModel> userDt =
-          Provider.of<DataProvider>(context, listen: false).userData;
+      noOfRecords =
+          Provider.of<TotalCount>(context, listen: false).getCounter();
+      print(noOfRecords);
+      Provider.of<DataProvider>(context, listen: false)
+          .setHotReloadDataReset(providerInitSetup);
       viewModel.setData(userDt);
     });
   }
@@ -72,6 +78,15 @@ class _HomeScreenState extends State<HomeScreen> {
     viewModel.dispose();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  providerInitSetup() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<DataProvider>(context, listen: false)
+          .setUserData(viewModel.userData);
+      Provider.of<DataProvider>(context, listen: false)
+          .updateUserDataList(viewModel.listUser);
+    });
   }
 
 /* //if using ChangeNotifierProvider.value constructor
@@ -202,12 +217,16 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "${viewModel.userData.length} Members Found",
-                style: FontUtils.getFont12Style(
-                  color: AppColors.prim5,
-                  fontWeight: FontWeight.w500,
-                ),
+              Consumer<TotalCount>(
+                builder: (context, value, _) {
+                  return Text(
+                    "${value.tcount} Members Found",
+                    style: FontUtils.getFont12Style(
+                      color: AppColors.prim5,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  );
+                },
               )
             ],
           ),
@@ -395,4 +414,17 @@ class _HomeScreenState extends State<HomeScreen> {
           return Text(selectedIndex.value.toString());
         }));
   } */
+}
+
+class TotalCount with ChangeNotifier {
+  int tcount = 0;
+
+  getCounter() => tcount;
+  setCounter(int counter) => tcount = counter;
+
+  setTcount(int len) {
+    print("--------------------------");
+    tcount = len;
+    notifyListeners();
+  }
 }
